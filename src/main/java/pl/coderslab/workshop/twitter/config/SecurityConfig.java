@@ -44,11 +44,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .formLogin()
+                // Konfiguracja dedykowanej obsługi formularza logowania
+                    .loginPage("/login")    // Ustalenie ścieżki do obsługi wyświetlania formularza
+                    .usernameParameter("email") // Ustalenie nazwy parametru określającego login użytkownika
+                    .defaultSuccessUrl("/", false) // Określenie, że domyślną stroną na którą przenosi formularz logowania jest strona główna, chyba, że użytkownik chciał wejść na jakąś inną (bez wymuszania)
+                    .and()
+                // Konfiguracja wylogowywania, aby przenosiło na stronę logowania
+                .logout()
+                    .logoutSuccessUrl("/login?logout")
                     .and()
                 .csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/register").permitAll()
                     .antMatchers("/login").permitAll()
+                    .antMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated();
 
     }
