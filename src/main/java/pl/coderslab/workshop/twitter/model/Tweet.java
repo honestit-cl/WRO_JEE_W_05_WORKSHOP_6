@@ -2,6 +2,7 @@ package pl.coderslab.workshop.twitter.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tweets")
@@ -9,7 +10,7 @@ public class Tweet extends AbstractEntity {
 
     @Column(nullable = false, length = 140)
     private String content;
-    private LocalDate created;
+    private LocalDateTime created;
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     private User user;
@@ -22,11 +23,11 @@ public class Tweet extends AbstractEntity {
         this.content = content;
     }
 
-    public LocalDate getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 
